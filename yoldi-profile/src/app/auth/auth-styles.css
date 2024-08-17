@@ -1,0 +1,15 @@
+.auth-layout {
+    background: #fff;
+    border-radius: 5px;
+    border: 1px solid #E6E6E6;
+    padding: 30px;
+    gap: 25px;
+    width: 400px;
+}
+
+@media (max-width: 768px) {
+    .auth-layout {
+        border: none;
+        width: 100%;
+    }
+}
