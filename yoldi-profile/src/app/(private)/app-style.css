@@ -1,0 +1,151 @@
+.account-list {
+    padding-top: 50px;
+    width: 800px
+}
+
+.account-list-item-info {
+    display: flex;
+    width: 100%;
+    padding-left: 20px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.accounts-block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 80px;
+}
+
+.accounts-scroll {
+    height: calc(100vh - 300px);
+    padding-right: 8px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.cover-block {
+    position: relative;
+}
+
+.cover-image {
+    background: #F3F3F3;
+    border-bottom: 1px solid #E6E6E6;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cover-image button {
+    display: none;
+}
+
+.cover-image:hover button {
+    display: flex;
+}
+
+.user-name {
+    font-size: 30px;
+    line-height: 42px;
+    font-weight: 500;
+    padding-bottom: 20px;
+}
+
+.user-block {
+    padding:  85px 240px;
+}
+
+.user-info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.user-desc {
+    padding-top: 30px;
+    width: calc(100% - 200px);
+}
+
+.avatar-block {
+    position: absolute;
+    left: 240px;
+    bottom: -50px;
+    z-index: 1;
+}
+
+.avatar-block button {
+    display: none;
+    position: absolute;
+    top: 33px;
+    left: 33px;
+}
+.avatar-block:hover button {
+    display: block;
+}
+
+.avatar-block .ant-upload-select {
+    border: none !important;
+}
+
+.remove-avatar {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    cursor: pointer;
+}
+
+@media (max-width: 1080px) {
+    .user-info {
+        display: block;
+    }
+
+    .user-desc {
+        width: 100%;
+    }
+
+    .user-block {
+        padding:  85px 140px;
+    }
+
+    .avatar-block {
+        left: 140px;
+    }
+
+    .user-info button {
+        margin-top: 10px;
+    }
+}
+
+
+@media (max-width: 840px) {
+    .account-list {
+        width: 100%;
+    }
+
+    .accounts-scroll {
+        padding-right: 20px;
+    }
+
+    .accounts-block {
+        padding-top: 80px;
+        padding-left: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .account-list-item-info {
+        display: block;
+    }
+
+    .avatar-block {
+        left: 30px;
+    }
+
+    .user-block {
+        padding:  85px 30px;
+    }
+}

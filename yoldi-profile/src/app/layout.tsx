@@ -1,13 +1,11 @@
 import "./globals.css";
 
-import { Inter } from "next/font/google";
-
 import type { Metadata } from "next";
 import { ReactNode } from "react";
 import { RootLayout } from "@/layouts/RootLayout";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-
-const inter = Inter({ subsets: ["latin"] });
+import { Fonts } from "@/app/config/configs";
+import { BaseLayout } from "@/layouts/BaseLayout";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -21,8 +19,10 @@ const Layout = ({
 }>) => (
   <html lang="en">
     <RootLayout>
-      <body className={inter.className}>
-        <AntdRegistry>{children}</AntdRegistry>
+      <body className={Fonts.className}>
+        <AntdRegistry>
+          <BaseLayout>{children}</BaseLayout>
+        </AntdRegistry>
       </body>
     </RootLayout>
   </html>

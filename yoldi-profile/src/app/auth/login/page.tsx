@@ -6,7 +6,7 @@ import FooterBlock from "@/components/FooterBlock";
 
 const Login = () => (
   <>
-    <div className="auth-layout">
+    <div className="auth-content">
       <div
         style={{
           fontSize: "30px",

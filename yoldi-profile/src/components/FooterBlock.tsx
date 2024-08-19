@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Layout } from "antd";
+import { Layout } from "antd";
 import { ReactNode } from "react";
 
 const { Footer } = Layout;

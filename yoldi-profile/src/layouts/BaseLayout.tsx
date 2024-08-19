@@ -3,9 +3,13 @@
 import { ReactNode } from "react";
 import HeaderBlock from "@/components/HeaderBlock";
 import { ConfigProvider } from "antd";
+import useSWR from "swr";
+import { UserService } from "@/services/api/user.service";
 
-export const BaseLayout = ({ children }: { children: ReactNode }) => (
-  <div className="base-layout-container" style={{ height: "100vh" }}>
+export const BaseLayout = ({ children }: { children: ReactNode }) => {
+  const { data } = useSWR("Me", UserService.me);
+
+  return (
     <ConfigProvider
       theme={{
         token: {
@@ -13,8 +17,8 @@ export const BaseLayout = ({ children }: { children: ReactNode }) => (
         },
       }}
     >
-      <HeaderBlock />
+      <HeaderBlock me={data} />
       {children}
     </ConfigProvider>
-  </div>
-);
+  );
+};
