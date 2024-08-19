@@ -1,32 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { getApiKey } from "@/app/actions/auth";
 
-const protectedRoutes = ["/accounts"];
-const publicRoutes = ["/login", "/signup", "/"];
+const publicRoutes = ["/auth/login", "/auth/signup", "/"];
 
-const middleware = (req: NextRequest) => {
+const middleware = async (req: NextRequest) => {
   const path = req.nextUrl.pathname;
 
-  const isProtectedRoute = protectedRoutes.includes(path);
   const isPublicRoute = publicRoutes.includes(path);
-  console.log(cookies());
-  console.log("cookies()cookies()");
-  const token = cookies().get("token")?.value;
 
-  if (isProtectedRoute && token) {
-    return NextResponse.redirect(new URL("/auth/login", req.nextUrl));
-  }
+  const apiKey = await getApiKey();
 
-  if (
-    isPublicRoute &&
-    token &&
-    !req.nextUrl.pathname.startsWith("/dashboard")
-  ) {
-    return NextResponse.redirect(new URL("/dashboard", req.nextUrl));
+  if (isPublicRoute && apiKey) {
+    return NextResponse.redirect(new URL("/accounts", req.nextUrl));
   }
 
   return NextResponse.next();
-}
+};
 
 export default middleware;
 

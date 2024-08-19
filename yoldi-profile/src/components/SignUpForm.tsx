@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Form, FormProps, Input } from "antd";
+import { Button, Form, FormProps, Input, message } from "antd";
 import {
   EyeInvisibleOutlined,
   EyeTwoTone,
@@ -12,15 +12,23 @@ import { IUser } from "@/types/IUsers";
 import { AuthService } from "@/services/api/auth.service";
 import useSWRMutation from "swr/mutation";
 import { Patterns } from "@/utils/validators";
+import { useRouter } from "next/navigation";
 
 const SigUpForm = () => {
+  const { push } = useRouter();
   const { isMutating, trigger } = useSWRMutation(
     "Signup",
     (_, { arg }: { arg: IUser }) => AuthService.signup(arg),
   );
 
   const onFinish: FormProps<IUser>["onFinish"] = async (values: IUser) => {
-    await trigger(values);
+    try {
+      await trigger(values);
+      message.success("Пользователь успешно зарегистрирован.");
+      push("/auth/login");
+    } catch (error: any) {
+      message.error(error?.response?.data?.message);
+    }
   };
 
   return (
@@ -37,7 +45,7 @@ const SigUpForm = () => {
             {
               required: true,
               message: "Пожалуйста, введите имя пользователя!",
-                whitespace: true,
+              whitespace: true,
             },
             {
               min: 2,

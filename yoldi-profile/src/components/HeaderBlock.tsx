@@ -3,12 +3,21 @@ import Image from "next/image";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { IUser } from "@/types/IUsers";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useMemo } from "react";
 
 const { Header } = Layout;
 
-const HeaderBlock = ({ me }: { me: IUser | undefined }) => {
+const HeaderBlock = ({
+  me,
+  apiKey,
+}: {
+  me: IUser | undefined;
+  apiKey?: string;
+}) => {
   const isMobile = useMediaQuery();
-
+  const path = usePathname();
+  const isLoginPage = useMemo(() => path.includes("login"), [path]);
   return (
     <Header
       style={{
@@ -49,7 +58,7 @@ const HeaderBlock = ({ me }: { me: IUser | undefined }) => {
           </div>
         )}
       </div>
-      {me ? (
+      {me && apiKey ? (
         <div
           style={{
             display: "flex",
@@ -57,7 +66,7 @@ const HeaderBlock = ({ me }: { me: IUser | undefined }) => {
           }}
         >
           <div style={{ paddingRight: "15px" }}>{me.name}</div>
-          <Link href={`/accounts/${me.slug}`}>
+          <Link href={`/accounts/owner/${me.slug}`}>
             <Avatar
               style={{
                 cursor: "pointer",
@@ -74,12 +83,16 @@ const HeaderBlock = ({ me }: { me: IUser | undefined }) => {
           </Link>
         </div>
       ) : (
-        <Button
-          type="default"
-          style={{ borderRadius: "5px", padding: "7px 33px" }}
-        >
-          Войти
-        </Button>
+        !isLoginPage && (
+          <Link href={`/auth/login`} style={{ all: "unset" }}>
+            <Button
+              type="default"
+              style={{ borderRadius: "5px", padding: "7px 33px" }}
+            >
+              Войти
+            </Button>
+          </Link>
+        )
       )}
     </Header>
   );

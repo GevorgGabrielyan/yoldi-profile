@@ -1,13 +1,21 @@
 "use client";
 
-import { ReactNode } from "react";
+import { PropsWithChildren, useEffect } from "react";
 import HeaderBlock from "@/components/HeaderBlock";
 import { ConfigProvider } from "antd";
 import useSWR from "swr";
 import { UserService } from "@/services/api/user.service";
 
-export const BaseLayout = ({ children }: { children: ReactNode }) => {
-  const { data } = useSWR("Me", UserService.me);
+export const BaseLayout = ({
+  children,
+  apiKey,
+}: PropsWithChildren<{ apiKey?: string }>) => {
+  const { data } = useSWR(apiKey ? "Me" : null, UserService.me);
+  useEffect(() => {
+    if (data) {
+      localStorage.setItem("currentUserEmail", data.email);
+    }
+  }, [data]);
 
   return (
     <ConfigProvider
@@ -17,7 +25,7 @@ export const BaseLayout = ({ children }: { children: ReactNode }) => {
         },
       }}
     >
-      <HeaderBlock me={data} />
+      <HeaderBlock apiKey={apiKey} me={data} />
       {children}
     </ConfigProvider>
   );

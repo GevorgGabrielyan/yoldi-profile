@@ -1,19 +1,20 @@
 import "server-only";
+
 import { cookies } from "next/headers";
 
-export async function updateSession() {
-  const session = cookies().get("session")?.value;
-
-  if (!session) {
-    return null;
-  }
-
-  const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-  cookies().set("session", session, {
+export async function createSession(apiKey: string) {
+  cookies().set("apiKey", apiKey, {
     httpOnly: true,
     secure: true,
-    expires: expires,
     sameSite: "lax",
     path: "/",
   });
+}
+
+export function deleteSession() {
+  cookies().delete("apiKey");
+}
+
+export function getSession() {
+  return cookies().get("apiKey")?.value;
 }

@@ -7,24 +7,16 @@ import {
   LockOutlined,
   MailOutlined,
 } from "@ant-design/icons";
-import useSWRMutation from "swr/mutation";
 import { IUser } from "@/types/IUsers";
-import { AuthService } from "@/services/api/auth.service";
-import { Configs } from "@/app/config/configs";
 import { Patterns } from "@/utils/validators";
+import login from "@/app/actions/auth";
 
 const LoginForm = () => {
-  const { isMutating, trigger } = useSWRMutation(
-    "Login",
-    (_, { arg }: { arg: Partial<IUser> }) => AuthService.login(arg),
-  );
-
   const onFinish: FormProps<IUser>["onFinish"] = async (values: IUser) => {
     try {
-      const res = await trigger(values);
-      localStorage.setItem(Configs.apiKey, res.value);
+      await login(values);
     } catch (error: any) {
-      message.error(error?.response?.data?.message);
+      message.error("Неверный адрес электронной почты или пароль");
     }
   };
 
@@ -82,7 +74,6 @@ const LoginForm = () => {
       </div>
       <div style={{ paddingTop: "10px" }}>
         <Button
-          loading={isMutating}
           type="primary"
           htmlType="submit"
           style={{

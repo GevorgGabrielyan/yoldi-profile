@@ -2,24 +2,39 @@
 
 import useSWR from "swr";
 import { UserService } from "@/services/api/user.service";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Button, Spin } from "antd";
 import Image from "next/image";
 import UserCover from "@/components/UserCover";
 import { useState } from "react";
 import EditUserModal from "@/components/EditUserModal";
+import { deleteApiKey } from "@/app/actions/auth";
 
-const Account = () => {
+const Account = ({
+  apiKey,
+  isOwner,
+}: {
+  apiKey?: string;
+  isOwner: boolean;
+}) => {
   const { id } = useParams();
+
+  const { push } = useRouter();
 
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
   const [imageId, selectImageId] = useState<uuid>();
   const [coverId, selectCoverId] = useState<uuid>();
 
-  const { data, isValidating } = useSWR("Profile", () =>
+  const { data, isValidating } = useSWR("Account", () =>
     UserService.account(id as string),
   );
+
+  const signOut = async () => {
+    await deleteApiKey();
+    localStorage.clear();
+    push("/auth/login");
+  };
 
   return (
     <Spin spinning={isValidating}>
@@ -27,6 +42,8 @@ const Account = () => {
         {data && (
           <div>
             <UserCover
+              apiKey={apiKey}
+              isOwner={isOwner}
               user={data}
               selectCoverId={selectCoverId}
               selectImageId={selectImageId}
@@ -39,44 +56,49 @@ const Account = () => {
                     {data.email}
                   </div>
                 </div>
+                {apiKey && isOwner && (
+                  <Button
+                    onClick={() => setIsOpenModal(true)}
+                    style={{
+                      width: "200px",
+                      height: "40px",
+                      fontWeight: "500",
+                      gap: "10px",
+                      lineHeight: "26.5px",
+                    }}
+                  >
+                    <Image
+                      src="/icons/edit.svg"
+                      width={20}
+                      height={20}
+                      alt="edit"
+                    />
+                    Редактировать
+                  </Button>
+                )}
+              </div>
+              <div className="user-desc">{data.description}</div>
+              {apiKey && (
                 <Button
-                  onClick={() => setIsOpenModal(true)}
+                  onClick={signOut}
                   style={{
-                    width: "200px",
+                    width: "130px",
                     height: "40px",
+                    marginTop: "60px",
                     fontWeight: "500",
                     gap: "10px",
                     lineHeight: "26.5px",
                   }}
                 >
                   <Image
-                    src="/icons/edit.svg"
+                    src="/icons/sign-out.svg"
                     width={20}
                     height={20}
-                    alt="edit"
+                    alt="sign-out"
                   />
-                  Редактировать
+                  Выйти
                 </Button>
-              </div>
-              <div className="user-desc">{data.description}</div>
-              <Button
-                style={{
-                  width: "130px",
-                  height: "40px",
-                  marginTop: "60px",
-                  fontWeight: "500",
-                  gap: "10px",
-                  lineHeight: "26.5px",
-                }}
-              >
-                <Image
-                  src="/icons/sign-out.svg"
-                  width={20}
-                  height={20}
-                  alt="sign-out"
-                />
-                Выйти
-              </Button>
+              )}
             </div>
           </div>
         )}

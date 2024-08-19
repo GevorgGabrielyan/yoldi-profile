@@ -3,6 +3,7 @@ import "../auth-styles.css";
 import SigUpForm from "@/components/SignUpForm";
 import { Button } from "antd";
 import FooterBlock from "@/components/FooterBlock";
+import Link from "next/link";
 
 const Signup = () => (
   <>
@@ -21,9 +22,11 @@ const Signup = () => (
     <FooterBlock>
       <div>
         Уже есть аккаунт?
-        <Button type="text" style={{ fontWeight: 500, padding: "5px" }}>
-          Войти
-        </Button>
+        <Link href={`/auth/login`} style={{ all: "unset" }}>
+          <Button type="text" style={{ fontWeight: 500, padding: "5px" }}>
+            Войти
+          </Button>
+        </Link>
       </div>
     </FooterBlock>
   </>

@@ -19,9 +19,6 @@ const EditUserModal = ({
 }) => {
   const { mutate } = useSWRConfig();
 
-  const handleOk = () => {
-    handleClose();
-  };
   const { isMutating, trigger } = useSWRMutation(
     "Signup",
     (_, { arg }: { arg: IUser }) => UserService.editProfile(arg),
@@ -37,7 +34,7 @@ const EditUserModal = ({
       });
       handleClose();
       mutate("Me");
-      mutate("Profile");
+      mutate("Account");
     } catch (error: any) {
       message.error(error?.response?.data?.message);
     }
@@ -45,6 +42,7 @@ const EditUserModal = ({
   return (
     <>
       <Modal
+        className="user-edit-modal"
         width="600px"
         closeIcon={null}
         title={
@@ -54,8 +52,6 @@ const EditUserModal = ({
         }
         footer={null}
         open={true}
-        onOk={handleOk}
-        onCancel={handleClose}
       >
         <Form
           name="user"
@@ -137,6 +133,7 @@ const EditUserModal = ({
             }}
           >
             <Button
+              onClick={handleClose}
               type="default"
               style={{
                 width: "265px",

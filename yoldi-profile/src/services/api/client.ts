@@ -4,7 +4,7 @@ import type {
   InternalAxiosRequestConfig,
   AxiosInterceptorManager,
 } from "axios";
-import {Configs} from "@/app/config/configs";
+import { deleteApiKey, getApiKey } from "@/app/actions/auth";
 
 const HttpClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
@@ -12,7 +12,7 @@ const HttpClient = axios.create({
 
 HttpClient.interceptors.request.use(
   async (req: InternalAxiosRequestConfig) => {
-    const apiKey = localStorage.getItem(Configs.apiKey);
+    const apiKey = await getApiKey();
     if (apiKey) {
       req.headers["X-API-KEY"] = `${apiKey}`;
       if (req.headers["Content-Type"] !== "multipart/form-data") {
@@ -29,12 +29,13 @@ HttpClient.interceptors.request.use(
 
 const ResponseErrorHandler: Parameters<
   AxiosInterceptorManager<unknown>["use"]
->[1] = (error) => {
+>[1] = async (error) => {
   if (
     isAxiosError(error) &&
     error.response?.status === HttpStatusCode.Unauthorized
   ) {
     localStorage.clear();
+    await deleteApiKey();
   }
   return Promise.reject(error);
 };

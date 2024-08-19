@@ -23,7 +23,6 @@ body {
     margin-bottom: 10px !important;
 }
 
-
 .ant-input-group-wrapper {
     height: auto !important;
 }
@@ -49,6 +48,27 @@ body {
 @media (max-width: 768px) {
     .header-text {
         display: none;
+    }
+
+    .ant-modal {
+        max-width: 100% !important;
+        top: 81px !important;
+        height: 100vh !important;
+        margin: 0 !important;
+    }
+
+    .ant-modal-mask {
+        background: transparent !important;
+    }
+
+    .ant-modal-wrap {
+        overflow: hidden !important;
+    }
+
+    .ant-modal-content {
+        box-shadow: none;
+        height: 100vh !important;
+        border-radius: 0 !important;
     }
 }
 
