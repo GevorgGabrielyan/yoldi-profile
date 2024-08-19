@@ -1,3 +1,53 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": [
+    "next/core-web-vitals",
+    "next",
+    "prettier", // Uses eslint-config-prettier to disable ESLint rules from @typescript-eslint/eslint-plugin that would conflict with prettier
+    "plugin:prettier/recommended",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "no-console": ["error", { "allow": ["debug"] }],
+        "max-len": [
+          "error",
+          {
+            "code": 150
+          }
+        ],
+        "react/display-name": "off",
+        "no-case-declarations": "off",
+        "import/no-duplicates": "error",
+        "no-eval": "error",
+        "no-var": "error",
+        "no-extra-bind": "error",
+        "no-multiple-empty-lines": "error",
+        "no-sequences": "error",
+        "no-new-func": "error",
+        "no-redeclare": "error",
+        "no-return-await": "error",
+        "prefer-object-spread": "error",
+        "arrow-body-style": "warn",
+        "object-curly-spacing": ["error", "always"],
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn",
+        "react/react-in-jsx-scope": "off",
+        "react/self-closing-comp": "error",
+        "@typescript-eslint/no-explicit-any": "warn",
+        "@typescript-eslint/consistent-type-definitions": "error",
+        "@typescript-eslint/no-this-alias": "error",
+        "@typescript-eslint/no-unused-vars": [
+          "error",
+          {
+            "argsIgnorePattern": "^_",
+            "ignoreRestSiblings": true
+          }
+        ]
+      }
+    }
+  ]
 }
