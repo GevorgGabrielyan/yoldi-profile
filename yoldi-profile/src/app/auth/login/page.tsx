@@ -3,7 +3,6 @@ import "../auth-styles.css";
 import LoginForm from "@/components/LoginForm";
 import { Button } from "antd";
 import FooterBlock from "@/components/FooterBlock";
-import { redirect } from "next/navigation";
 import Link from "next/link";
 
 const Login = () => (
