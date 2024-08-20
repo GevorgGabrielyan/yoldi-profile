@@ -14,6 +14,10 @@ const middleware = async (req: NextRequest) => {
     return NextResponse.redirect(new URL("/accounts", req.nextUrl));
   }
 
+  if (path === "/" && !apiKey) {
+    return NextResponse.redirect(new URL("/auth/login", req.nextUrl));
+  }
+
   return NextResponse.next();
 };
 
